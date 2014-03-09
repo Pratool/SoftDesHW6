@@ -20,7 +20,7 @@ class BallFollowModel:
         self.width = 640    # Window's width
         self.height = 480   # Window's height
         self.balls = []
-        self.click1_set = False
+        self.click1_set = True
         new_ball = Ball((self.width/2), (self.height/2), [0,0])
         self.balls.append(new_ball)
     def update(self):
@@ -68,9 +68,10 @@ class BallFollowController:
         if event.type == MOUSEBUTTONDOWN:
             self.mouse_pos = pygame.mouse.get_pos()
             if self.model.click1_set == True:
-                self.model.speed = [0, 0]
+                self.set_speed()
+#                self.model.speed = [0, 0]
                 self.model.click1_set = False
-            else:
+            elif self.model.click1_set == False:
                 self.model.click1_set = True
                 self.set_speed()
     
@@ -106,5 +107,6 @@ while True:
         controller.handle_mouse_event(event)
     if model.click1_set == False:
         controller.move_ball()
+        print 'Have not clicked to stop'
     view.draw()
     time.sleep(0.1)
