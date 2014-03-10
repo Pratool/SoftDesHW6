@@ -14,6 +14,8 @@ import pdb
 import time
 import math
 
+pygame.mixer.music.load('meow.mp3')
+
 class BallFollowModel:
     """ This encodes the game state of our Ball Drawing Game """
     def __init__(self):
@@ -87,7 +89,8 @@ class BallFollowController:
     def move_ball(self):
         scr = self.screen
         scr.fill((255, 105, 180), model.balls[0].rect)
-        
+        #scr.fill((255, 255, 255), model.balls[0].rect)
+
 #        self.model.balls[0].rect = self.model.balls[0].rect.move(self.model.balls[0].speed)
         self.model.balls[0].pos[0] += 2*self.model.balls[0].speed[0]
         self.model.balls[0].pos[1] += 2*self.model.balls[0].speed[1]
@@ -103,19 +106,20 @@ class BallFollowController:
 
         if self.model.balls[0].pos[0] < 0 or self.model.balls[0].pos[0]+35 > self.model.width:
             self.model.balls[0].speed[0] = -self.model.balls[0].speed[0]
+            pygame.mixer.music.play(0)
         if self.model.balls[0].pos[1] < 0 or self.model.balls[0].pos[1]+35 > self.model.height:
             self.model.balls[0].speed[1] = -self.model.balls[0].speed[1]
-        
+            pygame.mixer.music.play(0)
         print self.model.height, self.model.width
         
         #scr.make_trail()
 #        pygame.self.screen.fill((212,175,55), model.balls[0].rect)
 #         Debugging
-        print 'Target', self.mouse_pos
-        print 'Speed', self.model.balls[0].speed
-        print 'Position', self.model.balls[0].rect.topleft
+#        print 'Target', self.mouse_pos
+#        print 'Speed', self.model.balls[0].speed
+#        print 'Position', self.model.balls[0].rect.topleft
 
-        
+
 
 model = BallFollowModel()
 screen = pygame.display.set_mode((model.width, model.height))
@@ -125,6 +129,7 @@ controller = BallFollowController(model,screen)
 while True:
     for event in pygame.event.get():
         if event.type  == pygame.QUIT:
+            #pygame.image.save(screen,'cool_pic6.png')
             sys.exit()
         controller.handle_mouse_event(event)
     if model.click1_set == False:
@@ -132,3 +137,5 @@ while True:
         print 'Have not clicked to stop'
     view.draw()
     time.sleep(0.0001)
+
+
