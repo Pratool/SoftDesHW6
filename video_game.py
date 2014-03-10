@@ -25,6 +25,9 @@ class BallFollowModel:
         self.balls.append(new_ball)
     def update(self):
         self.ball.update()
+    
+    def scoring(self):
+        for i in len(self.screen)
 
 
 class Ball:
@@ -85,15 +88,15 @@ class BallFollowController:
     def move_ball(self):
         self.model.balls[0].rect = self.model.balls[0].rect.move(self.model.balls[0].speed)
         
-        if self.model.balls[0].rect.left < 0 or self.model.balls[0].rect.right+34 > self.model.width:
+        if (self.model.balls[0].rect.left < 0) or (self.model.balls[0].rect.right > self.model.width):
             self.model.balls[0].speed[0] = -self.model.balls[0].speed[0]
-        if self.model.balls[0].rect.top < 0 or self.model.balls[0].rect.right+39 > self.model.height:
+        if (self.model.balls[0].rect.top < 0) or (self.model.balls[0].rect.bottom > self.model.height):
             self.model.balls[0].speed[1] = -self.model.balls[0].speed[1]
         
 #         Debugging
-        print 'Target', self.mouse_pos
-        print 'Speed', self.model.balls[0].speed
-        print 'Position', self.model.balls[0].rect.topleft
+#        print 'Target', self.mouse_pos
+#        print 'Speed', self.model.balls[0].speed
+#        print 'Position', self.model.balls[0].rect.topleft
 
 model = BallFollowModel()
 screen = pygame.display.set_mode((model.width, model.height))
@@ -107,6 +110,5 @@ while True:
         controller.handle_mouse_event(event)
     if model.click1_set == False:
         controller.move_ball()
-        print 'Have not clicked to stop'
     view.draw()
-    time.sleep(0.1)
+    time.sleep(0.01)
