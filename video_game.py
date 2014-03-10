@@ -36,6 +36,7 @@ class Ball:
         self.pos = [x, y]
         self.color = (255, 255, 255)
         self.sprite = pygame.image.load('paul.gif')
+        
         self.rect = self.sprite.get_rect()
         self.rect.topleft = (int(self.pos[0]), int(self.pos[1]))
         self.speed = speed
@@ -78,7 +79,15 @@ class BallFollowController:
             elif self.model.click1_set == False:
                 self.model.click1_set = True
                 self.set_speed()
+            
+            self.model.num_clicks += 1
     
+    def handle_key_event(self, event):
+        if event.type == KEYDOWN:
+            if event.key == K_RETURN:
+                self.model.get_score(screen)
+#                self.screen.draw()
+
     def set_speed(self):
         target = self.mouse_pos
         org = self.model.balls[0].pos
@@ -136,18 +145,14 @@ pygame.display.update()
 view = BallFollowView(model, screen)
 controller = BallFollowController(model,screen)
 
-
-
 while True:
     for event in pygame.event.get():
-        if event.type  == pygame.QUIT:
-            #pygame.image.save(screen,'cool_pic6.png')
+        if event.type == pygame.QUIT:
             sys.exit()
         controller.handle_mouse_event(event)
+        controller.handle_key_event(event)
+    
     if model.click1_set == False:
         controller.move_ball()
-        print 'Have not clicked to stop'
     view.draw()
     time.sleep(0.0001)
-
-
