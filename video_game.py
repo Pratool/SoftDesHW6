@@ -58,15 +58,18 @@ class BallFollowModel:
         
         # Loops through all the pixels and checks how many white and black pixels are
         # left in the background
+        white = 0
+        black = 0
         for i in range(self.width - 1):
             for j in range(self.height - 1):
                 rgb = tuple(scr.get_at((i, j)))
-                if rgb == WHITE or rgb == BLACK:
-                    print self.score
-                    self.score += 1
+                if rgb == (255, 255, 255, 255):
+                    white += 1
+                if rgb == (0, 0, 0, 255):
+                    black += 1
         
         # Score calculation
-        self.score = (1 - (self.score / (self.width*self.height)))*100.0 - 1.5*self.num_clicks
+        self.score = round((1 - float(white)/(black+white))*100.0 - 1.5*self.num_clicks)
         
         # PyGame setup for the text to be drawn
         self.text = self.basicFont.render('Score: ' + str(self.score), True, GREEN)
@@ -80,7 +83,7 @@ class Ball:
             height  integer             height of the image of the ball
             x       floating point      x position of the ball
             y       floating point      y position of the ball
-            speed   list                x and y vectors of velocity, respectively           
+            speed   list                x and y vectors of velocity, respectively
 
         Ball attributes:
             pos         list
